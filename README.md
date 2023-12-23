@@ -31,7 +31,7 @@ https://github.com/SakariPirnes/multi-ken-burns-for-video/assets/64021387/6d89d3
 ### Running the program
 The program has three steps:
 1. As shown in the below video, after the above command has been executed frames has to be cropped. In our case we crop 3 frames for every second plus the final frame. The cropping can be done by mouse as shown in the video, or 
-by giving exact coordinates, instractions will be printed in the console. This is done by [multikb/get_cropped_frames.py](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/get_cropped_frames.py) which generates coordinate file [example/cropped_frames.npy](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/cropped_frames.npy). This step is equivalent of running reparately:
+by giving exact coordinates, instractions will be printed in the console. This is done by [multikb/get_cropped_frames.py](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/get_cropped_frames.py) which generates coordinate file [example/cropped_frames.npy](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/cropped_frames.npy). This step is equivalent of running reparately:`de`
 
     `python3 multikb/get_cropped_frames.py example/in.mp4 example/cropped_frames.npy 4:5 3`
    
