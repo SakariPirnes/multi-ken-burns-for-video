@@ -92,6 +92,7 @@ def main(file_in, file_out,aratio, freq=1, fill_color=[255,255,255]):
     crop_filter = np.full((height, width,3), fill_color, dtype=np.uint8) 
 
     print("Click left mouse button and drag inorder to select area\n or press  x,y or h to change xy-coordinates of top left coorner and height of the crop")
+    print("Press \"d\" to save the crop and move to next one.")
 
     while (True):
         ret, frame = cap.read()
