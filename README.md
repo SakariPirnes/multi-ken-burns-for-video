@@ -2,6 +2,6 @@
 
 ## Example
 
-# Input video:
+### Input video:
 
 https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/in.MOV
