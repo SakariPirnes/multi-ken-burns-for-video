@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
 
+__all__ = ["main"]
+
 def aspect_ratio(aratio, width, height):
     """TODO: Docstring for aspect_ratio.
 
