@@ -37,7 +37,7 @@ by giving exact coordinates, instractions will be printed in the console. This i
    
 2. After this the coordinate file [example/connected_cropped_frames.npy](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/connected_cropped_frames.npy) is generated from [example/cropped_frames.npy](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/cropped_frames.npy) by running [multikb/connect_cropped_frames.py](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/connect_cropped_frames.py). This is done by connecting the cropped frames linearly and then smoothing by taking a convolution with a bumb function which in our case has a support of lenght 20. This step is equivalent of running separately:
    
-    python3 multikb/connect_cropped_frames.py example/cropped_frames.npy example/connected_cropped_frames.npy 20
+    `python3 multikb/connect_cropped_frames.py example/cropped_frames.npy example/connected_cropped_frames.npy 20`
    
 3. Finaly the program runs [multikb/make_video_from_connected_cropped_frames.py](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/make_video_from_connected_cropped_frames.py) in order to make the final file. This step is equivalent of running separately:
 
