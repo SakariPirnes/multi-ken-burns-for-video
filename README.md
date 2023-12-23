@@ -32,10 +32,15 @@ https://github.com/SakariPirnes/multi-ken-burns-for-video/assets/64021387/6d89d3
 The program has three steps:
 1. As shown in the below video, after the above command has been executed frames has to be cropped. In our case we crop 3 frames for every second plus the final frame. The cropping can be done by mouse as shown in the video, or 
 by giving exact coordinates, instractions will be printed in the console. This is done by [multikb/get_cropped_frames.py](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/get_cropped_frames.py) which generates coordinate file [example/cropped_frames.npy](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/cropped_frames.npy). This step is equivalent of running reparately:
+
     python3 multikb/get_cropped_frames.py example/in.mp4 example/cropped_frames.npy 4:5 3
+   
 2. After this the coordinate file [example/connected_cropped_frames.npy](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/connected_cropped_frames.npy) is generated from [example/cropped_frames.npy](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/cropped_frames.npy) by running [multikb/connect_cropped_frames.py](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/connect_cropped_frames.py). This is done by connecting the cropped frames linearly and then smoothing by taking a convolution with a bumb function which in our case has a support of lenght 20. This step is equivalent of running separately:
+   
     python3 multikb/connect_cropped_frames.py example/cropped_frames.npy example/connected_cropped_frames.npy 20
+   
 3. Finaly the program runs [multikb/make_video_from_connected_cropped_frames.py](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/make_video_from_connected_cropped_frames.py) in order to make the final file. This step is equivalent of running separately:
+
     python3 multikb/make_video_from_connected_cropped_frames.py example/in.mp4 example/out.mp4 example/connected_cropped_frames.npy 4:5 
 
 In order to avoid the manual labor of cropping the frames (step 1), one can use the obtained coordinate files to run https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/make_video_from_connected_cropped_frames.py and 
