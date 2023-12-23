@@ -12,7 +12,11 @@ https://github.com/SakariPirnes/multi-ken-burns-for-video/assets/64021387/289dd3
 
 [The following output video is in the example folder](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/out.mp4)
 
-https://github.com/SakariPirnes/multi-ken-burns-for-video/assets/64021387/6d89d365-42ea-4c5f-a688-8271a7c1b6a0
+
+
+https://github.com/SakariPirnes/multi-ken-burns-for-video/assets/64021387/501d9ea4-f379-4792-a046-32023e6a653e
+
+
 
 ### Command to obtain out.mp4 from in.mp4 
 
