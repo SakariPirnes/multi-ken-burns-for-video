@@ -39,7 +39,7 @@ cropped frames linearly and then smoothing by taking a convolution with a bumb f
 In order to avoid the manual labor of cropping the frames (step 1), one can use the obtained coordinate files to run https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/make_video_from_connected_cropped_frames.py and 
 [multikb](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/make_video_from_connected_cropped_frames.py) again with different parameters.
 
-**Note the below video is sped up. Duration of the original video is 1min 42s**
+**Note the below video is sped up. Duration of the original video is 1min 42s which is roughly the time used for manually cropping the frames**
 
 https://github.com/SakariPirnes/multi-ken-burns-for-video/assets/64021387/bd1a3b19-bf11-4cae-9131-ce527a3d5b74
 
