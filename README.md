@@ -18,4 +18,13 @@ https://github.com/SakariPirnes/multi-ken-burns-for-video/assets/64021387/6d89d3
 
     python3 multikb example/in.mp4 example/ out.mp4 4:5 20 3
 
+**Explanation of the arguments for Python:**
+1. `multikb`: the program
+2. `example/in.mp4`: path to input file
+3. `example/`: path to directory for output (use `./` for current directory)
+4. `out.mp4`: name of the output file 
+5. `4:5`: aspect ratio of the output Video
+6. `20`: smootheness of the trajectory, greater number means more smootheness and 
+`0` is no smoothing
+7. `3`: how many times one has to manually crop a frame in one second
 
