@@ -1,3 +1,7 @@
 # Multiple Ken Burns Efects for Video Input 
 
-More info sooner or later
+## Example
+
+# Input video:
+
+https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/in.MOV
