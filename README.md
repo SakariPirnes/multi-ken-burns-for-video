@@ -28,3 +28,18 @@ https://github.com/SakariPirnes/multi-ken-burns-for-video/assets/64021387/6d89d3
 `0` is no smoothing
 7. `3`: how many times one has to manually crop a frame in one second
 
+### Running the program
+The program has three steps:
+1. As shown in the below video, after the above command has been executed frames has to be cropped. In our case we crop 3 frames for every second plus the final frame. The cropping can be done by mouse as shown in the video, or 
+by giving exact coordinates, instractions will be printed in the console. This is done by [multikb/get_cropped_frames.py](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/get_cropped_frames.py) which generates coordinate file [example/cropped_frames.npy](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/cropped_frames.npy). 
+2. After this the coordinate file [example/connected_cropped_frames.npy](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/connected_cropped_frames.npy) is generated from [example/cropped_frames.npy](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/example/cropped_frames.npy) by running [multikb](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/connect_cropped_frames.py). This is done by connecting the
+cropped frames linearly and then smoothing by taking a convolution with a bumb function which in our case has a support of lenght 20. 
+3. Finaly the program runs [multikb](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/make_video_from_connected_cropped_frames.py) in order to make the final file.
+
+In order to avoid the manual labor of cropping the frames (step 1), one can use the obtained coordinate files to run https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/make_video_from_connected_cropped_frames.py and 
+[multikb](https://github.com/SakariPirnes/multi-ken-burns-for-video/blob/main/multikb/make_video_from_connected_cropped_frames.py) again with different parameters.
+
+**Note the below video is sped up. Duration of the original video is 1min 42s**
+https://github.com/SakariPirnes/multi-ken-burns-for-video/assets/64021387/bd1a3b19-bf11-4cae-9131-ce527a3d5b74
+
+
