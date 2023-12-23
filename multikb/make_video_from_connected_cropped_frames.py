@@ -48,7 +48,7 @@ def main(video_in, video_out, data_file, aratio):
 
             frame_out = frame[yu:yb, lx:rx]
 
-            frame_out_scale = cv2.resize(frame_out, (w_out, h_out))
+            frame_out_scale = cv2.resize(frame_out, (w_out, h_out), interpolation=cv2.INTER_CUBIC)
 
             output.write(frame_out_scale)
         else:
