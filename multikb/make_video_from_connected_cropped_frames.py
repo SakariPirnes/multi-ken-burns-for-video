@@ -35,7 +35,7 @@ def main(video_in, video_out, data_file, aratio):
 
         ret, frame = cap.read()
 
-        if ret==True:
+        if ret==True and fcount<data.shape[0]:
             x, y, h = data[fcount]
             
             # left and right x coordinates
