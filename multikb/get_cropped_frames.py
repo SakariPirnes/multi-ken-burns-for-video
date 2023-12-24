@@ -40,6 +40,29 @@ def frame_filter(frame, crop_filter, crop, aratio, fcount):
     output[tl[0]:br[0], tl[1]:br[1]] = frame[tl[0]:br[0], tl[1]:br[1]]
     return output
 
+def boundary_check(c):
+    """TODO: Docstring for boundary_check.
+
+    :c: TODO
+    :returns: TODO
+
+    """
+    global crop, height, width, aratio_copy
+    
+    if ("x" in c) and (int(crop[0]+aratio_copy*crop[2]+0.5)>=width):
+        crop[0] = int(width-aratio_copy*crop[2]-1+0.5)
+        print("Changes: x={}".format(crop[0]))
+
+    if ("y" in c) and ( crop[1]+crop[2]>=height ):
+        crop[1]=max(0,height-crop[2]-1)
+        print("Changes: y={}".format(crop[1]))
+
+    if ("h" in c) and ( int(crop[1]+crop[2])>=height ):
+        crop[2] = max(0,height-crop[1]-1)
+        print("Changes: h={}".format(crop[2]))
+
+x_temp, y_temp = -1,-1
+c_temp=""
 def xy_mouse(event, x, y, flags, param):
     """TODO: Docstring for xy_mouse.
 
@@ -51,16 +74,23 @@ def xy_mouse(event, x, y, flags, param):
     :returns: TODO
 
     """
-    global crop
+    
+    global crop, height, width, aratio_copy, x_temp, y_temp,c_temp
     if event == cv2.EVENT_LBUTTONDOWN: #EVENT_LBUTTONDBLCLK:
-        crop[0] = x
-        crop[1] = y
+        crop[0], crop[1] = x, y
+        x_temp, y_temp = x, y
+        c_temp = "xy"
         print("Changes: x={}, y={}".format(*crop))
-    elif event == cv2.EVENT_LBUTTONUP:
+    elif (event == cv2.EVENT_LBUTTONUP):
         h = y-crop[1]
-        if h>0:
+        if ((x_temp,y_temp)!=(x,y)) and h>0 and crop[2]!=h:
             crop[2] = h 
+            c_temp += "h"
             print("Changes: h={}".format(crop[2]))
+
+        boundary_check(c_temp)
+        c_temp = ""
+
 def main(file_in, file_out,aratio, freq=1, fill_color=[255,255,255]):
     """TODO: Docstring for main.
 
@@ -68,7 +98,9 @@ def main(file_in, file_out,aratio, freq=1, fill_color=[255,255,255]):
     :returns: TODO
 
     """
-    global crop
+    global crop, height, width, aratio_copy
+    aratio_copy = aratio
+
     cap = cv2.VideoCapture(file_in)
 
     if (cap.isOpened()==False):
@@ -116,19 +148,22 @@ def main(file_in, file_out,aratio, freq=1, fill_color=[255,255,255]):
                     x = int(input("Give new x coord: "))
                     print("Changes: x={}".format(x))
                     crop[0]= x 
+                    boundary_check("x")
 
                 elif key == ord("y"):
                     y = int(input("Give new y coord: "))
                     print("Changes: y={}".format(y))
                     crop[1] = y
+                    boundary_check("y")
 
                 elif key == ord("h"):
                     h = int(input("Give new height: "))
                     print("Changes: h={}".format(h))
                     crop[2] = h
+                    boundary_check("h")
 
                 elif key == ord("d"):
-                    if (0<= crop[0]) and (0<=crop[1]) and (crop[0]+int(aratio*crop[2])<=width) and (crop[1]+crop[2]<=height):
+                    if (0<= crop[0]) and (0<=crop[1]) and (crop[0]+int(aratio*crop[2])<width) and (crop[1]+crop[2]<height):
                         cv2.destroyWindow(msg)
                         data_out.append([fcount]+list(crop.copy()) )
                         break
