@@ -48,18 +48,35 @@ def boundary_check(c):
 
     """
     global crop, height, width, aratio_copy
-    
+
+
+    x, y, h = crop
     if ("x" in c) and (int(crop[0]+aratio_copy*crop[2]+0.5)>=width):
         crop[0] = int(width-aratio_copy*crop[2]-1+0.5)
-        print("Changes: x={}".format(crop[0]))
 
     if ("y" in c) and ( crop[1]+crop[2]>=height ):
         crop[1]=max(0,height-crop[2]-1)
-        print("Changes: y={}".format(crop[1]))
 
     if ("h" in c) and ( int(crop[1]+crop[2])>=height ):
         crop[2] = max(0,height-crop[1]-1)
-        print("Changes: h={}".format(crop[2]))
+    if (x,y,h) != tuple(crop):
+        print_list = [x, crop[0], y, crop[1], h, crop[2]]
+        print("Automatic changes: "+change_string(*print_list))
+
+def change_string(x_old,x,y_old,y,h_old,h):
+    """TODO: Docstring for change_string.
+
+    :x_old: TODO
+    :x: TODO
+    :y_olde: TODO
+    :y: TODO
+    :h_old: TODO
+    :h: TODO
+    :returns: TODO
+
+    """
+    l = [x_old, x, y_old, y, h_old, h]
+    return "x:{}->{}, y:{}->{}, h:{}->{}".format(*l)
 
 x_temp, y_temp = -1,-1
 c_temp=""
@@ -77,19 +94,22 @@ def xy_mouse(event, x, y, flags, param):
     
     global crop, height, width, aratio_copy, x_temp, y_temp,c_temp
     if event == cv2.EVENT_LBUTTONDOWN: #EVENT_LBUTTONDBLCLK:
+        print_list = [crop[0], x, crop[1], y, crop[2], crop[2]]
+        print("Changes: "+change_string(*print_list))
         crop[0], crop[1] = x, y
         x_temp, y_temp = x, y
         c_temp = "xy"
-        print("Changes: x={}, y={}".format(*crop))
     elif (event == cv2.EVENT_LBUTTONUP):
         h = y-crop[1]
         if ((x_temp,y_temp)!=(x,y)) and h>0 and crop[2]!=h:
+            print_list = [crop[0], crop[0], crop[1], crop[1], crop[2], h]
+            print("Changes: "+change_string(*print_list))
             crop[2] = h 
             c_temp += "h"
-            print("Changes: h={}".format(crop[2]))
 
         boundary_check(c_temp)
         c_temp = ""
+
 
 def get_cropped_frames(file_in, file_out,aratio, freq=1, fill_color=[255,255,255]):
     """TODO: Docstring for main.
@@ -146,19 +166,22 @@ def get_cropped_frames(file_in, file_out,aratio, freq=1, fill_color=[255,255,255
 
                 if key == ord("x"):
                     x = int(input("Give new x coord: "))
-                    print("Changes: x={}".format(x))
+                    print_list = [crop[0], x, crop[1], crop[1], crop[2], crop[2]]
+                    print("Changes: "+change_string(*print_list))
                     crop[0]= x 
                     boundary_check("x")
 
                 elif key == ord("y"):
                     y = int(input("Give new y coord: "))
-                    print("Changes: y={}".format(y))
+                    print_list = [crop[0], crop[0], crop[1], y, crop[2], crop[2]]
+                    print("Changes: "+change_string(*print_list))
                     crop[1] = y
                     boundary_check("y")
 
                 elif key == ord("h"):
                     h = int(input("Give new height: "))
-                    print("Changes: h={}".format(h))
+                    print_list = [crop[0], crop[0], crop[1], crop[1], crop[2], h]
+                    print("Changes: "+change_string(*print_list))
                     crop[2] = h
                     boundary_check("h")
 
