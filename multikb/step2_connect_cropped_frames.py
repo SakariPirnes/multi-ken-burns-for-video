@@ -1,6 +1,6 @@
 import numpy as np
 
-__all__ = ["main"]
+__all__ = ["connect_cropped_frames"]
 
 def bumb_func(x):
     """TODO: Docstring for bumb_func.
@@ -31,7 +31,7 @@ def smoothing(data_out, smoothness):
 
     return smooth_data_out
 
-def main(file_in, file_out, smoothness):
+def connect_cropped_frames(file_in, file_out, smoothness):
     """TODO: Docstring for main.
 
     :file_in: TODO
@@ -74,4 +74,4 @@ if __name__ == "__main__":
 
 
 
-    main(file_in, file_out, int(smoothness))
+    connect_cropped_frames(file_in, file_out, int(smoothness))

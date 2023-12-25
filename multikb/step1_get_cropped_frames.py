@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-__all__ = ["main"]
+__all__ = ["get_cropped_frames"]
 
 def aspect_ratio(aratio, width, height):
     """TODO: Docstring for aspect_ratio.
@@ -91,7 +91,7 @@ def xy_mouse(event, x, y, flags, param):
         boundary_check(c_temp)
         c_temp = ""
 
-def main(file_in, file_out,aratio, freq=1, fill_color=[255,255,255]):
+def get_cropped_frames(file_in, file_out,aratio, freq=1, fill_color=[255,255,255]):
     """TODO: Docstring for main.
 
     :file_in: TODO
@@ -196,4 +196,4 @@ if __name__ == "__main__":
     a = aratio.split(":")
     aratio = int(a[0])/int(a[1])
     freq = float(freq)
-    main(file_in, file_out, aratio, freq)
+    get_cropped_frames(file_in, file_out, aratio, freq)

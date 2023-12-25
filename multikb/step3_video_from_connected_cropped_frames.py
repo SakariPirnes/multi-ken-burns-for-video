@@ -1,11 +1,11 @@
 import numpy as np
 import cv2 
-from get_cropped_frames import aspect_ratio
+from multikb.step1_get_cropped_frames import aspect_ratio
 import ffmpeg
 
-__all__ = ["main"]
+__all__ = ["video_from_connected_cropped_frames"]
 
-def main(video_in, video_out, data_file, aratio):
+def video_from_connected_cropped_frames(video_in, video_out, data_file, aratio):
     """TODO: Docstring for main.
 
     :video_in: TODO
@@ -76,4 +76,4 @@ if __name__ =="__main__":
     a = aratio.split(":")
     aratio = int(a[0])/int(a[1])
 
-    main(video_in,video_out, data_file, aratio)
+    video_from_connected_cropped_frames(video_in,video_out, data_file, aratio)
