@@ -157,7 +157,6 @@ def get_cropped_frames(file_in, file_out,aratio, freq=1, window_height=None, fil
     crop = np.array([0,0,int(h_out*wratio_inv+0.5)])
     fcount = 0
     crop_filter = np.full((w_height, w_width,3), fill_color, dtype=np.uint8) 
-    print(crop_filter.shape)
 
     print("Click left mouse button and drag inorder to select area\n or press  x,y or h to change xy-coordinates of top left coorner and height of the crop")
     print("Press \"d\" to save the crop and move to next one.")
@@ -166,7 +165,6 @@ def get_cropped_frames(file_in, file_out,aratio, freq=1, window_height=None, fil
         ret, frame = cap.read()
         if ret==True and window_scaling_needed:
             frame= cv2.resize(frame, (w_width, w_height), interpolation=cv2.INTER_CUBIC)
-            print(frame.shape)
         if (ret == True) and (fcount%Ffreq==0 or fcount==nf-1):
             
 
