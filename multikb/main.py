@@ -4,7 +4,7 @@ from multikb.step3_video_from_connected_cropped_frames import video_from_connect
 
 __all__ = ["run"]
 
-def run(file_in, directory, file_out, aratio, smoothness, freq):
+def run(file_in, directory, file_out, aratio, smoothness, freq, window_height):
     """TODO: Docstring for main.
     :returns: TODO
 
@@ -13,9 +13,12 @@ def run(file_in, directory, file_out, aratio, smoothness, freq):
     a = aratio.split(":")
     aratio = int(a[0])/int(a[1])
     freq = float(freq)
+    
+    if window_height is not None:
+        window_height = int(window_height)
 
     print("Collecting manually cropped frames...")
-    get_cropped_frames(file_in, file_c, aratio, freq)
+    get_cropped_frames(file_in, file_c, aratio, freq, window_height)
 
     print("Cropped frames collected!")
     print("Connecting cropped frames...")
@@ -34,7 +37,11 @@ def run(file_in, directory, file_out, aratio, smoothness, freq):
 
 if __name__ == "__main__":
     from sys import argv
-
-    file_in, directory, file_out, aratio, smoothness, freq = argv[1:]
-    run(file_in, directory, file_out, aratio, smoothness, freq)    
+    
+    if len(argv[1:])==7:
+        file_in, directory, file_out, aratio, smoothness, freq, window_height = argv[1:]
+    elif len(argv[1:])==6:
+        file_in, directory, file_out, aratio, smoothness, freq = argv[1:]
+        window_height = None
+    run(file_in, directory, file_out, aratio, smoothness, freq, window_height)    
 

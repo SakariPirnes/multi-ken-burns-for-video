@@ -7,12 +7,13 @@ def get_cropped_frames_script():
     :returns: TODO
 
     """
-    file_in, file_out, aratio, freq = argv[1:]
+    file_in, file_out, aratio, freq, window_height = argv[1:]
 
     a = aratio.split(":")
     aratio = int(a[0])/int(a[1])
     freq = float(freq)
-    multikb.get_cropped_frames(file_in, file_out, aratio, freq)
+    window_height = int(window_height)
+    multikb.get_cropped_frames(file_in, file_out, aratio, freq, window_height)
 
 def connect_cropped_frames_script():
 
@@ -37,8 +38,12 @@ def main_script():
 
     """
     
-    file_in, directory, file_out, aratio, smoothness, freq = argv[1:]
-    multikb.run(file_in, directory, file_out, aratio, smoothness, freq)    
+    if len(argv[1:])==7:
+        file_in, directory, file_out, aratio, smoothness, freq, window_height = argv[1:]
+    elif len(argv[1:])==6:
+        file_in, directory, file_out, aratio, smoothness, freq = argv[1:]
+        window_height = None
+    multikb.run(file_in, directory, file_out, aratio, smoothness, freq, window_height)    
 
 
 

@@ -47,18 +47,18 @@ def boundary_check(c):
     :returns: TODO
 
     """
-    global crop, height, width, aratio_copy
+    global crop, w_height, w_width, aratio_copy
 
 
     x, y, h = crop
-    if ("x" in c) and (int(crop[0]+aratio_copy*crop[2]+0.5)>=width):
-        crop[0] = int(width-aratio_copy*crop[2]-1+0.5)
+    if ("x" in c) and (int(crop[0]+aratio_copy*crop[2]+0.5)>=w_width):
+        crop[0] = int(w_width-aratio_copy*crop[2]-1+0.5)
 
-    if ("y" in c) and ( crop[1]+crop[2]>=height ):
-        crop[1]=max(0,height-crop[2]-1)
+    if ("y" in c) and ( crop[1]+crop[2]>=w_height ):
+        crop[1]=max(0,w_height-crop[2]-1)
 
-    if ("h" in c) and ( int(crop[1]+crop[2])>=height ):
-        crop[2] = max(0,height-crop[1]-1)
+    if ("h" in c) and ( int(crop[1]+crop[2])>=w_height ):
+        crop[2] = max(0,w_height-crop[1]-1)
     if (x,y,h) != tuple(crop):
         print_list = [x, crop[0], y, crop[1], h, crop[2]]
         print("Automatic changes: "+change_string(*print_list))
@@ -92,7 +92,7 @@ def xy_mouse(event, x, y, flags, param):
 
     """
     
-    global crop, height, width, aratio_copy, x_temp, y_temp,c_temp
+    global crop, aratio_copy, x_temp, y_temp,c_temp
     if event == cv2.EVENT_LBUTTONDOWN: #EVENT_LBUTTONDBLCLK:
         print_list = [crop[0], x, crop[1], y, crop[2], crop[2]]
         print("Changes: "+change_string(*print_list))
@@ -111,14 +111,14 @@ def xy_mouse(event, x, y, flags, param):
         c_temp = ""
 
 
-def get_cropped_frames(file_in, file_out,aratio, freq=1, fill_color=[255,255,255]):
+def get_cropped_frames(file_in, file_out,aratio, freq=1, window_height=None, fill_color=[255,255,255]):
     """TODO: Docstring for main.
 
     :file_in: TODO
     :returns: TODO
 
     """
-    global crop, height, width, aratio_copy
+    global crop, w_height, w_width, aratio_copy
     aratio_copy = aratio
 
     cap = cv2.VideoCapture(file_in)
@@ -133,21 +133,40 @@ def get_cropped_frames(file_in, file_out,aratio, freq=1, fill_color=[255,255,255
 
     Ffreq = int(fps/freq)
 
+    vratio = width/height
+
+    window_scaling_needed=False
+    wratio = 1
+    wratio_inv = 1
+    if window_height is not None and window_height!=height:
+        window_scaling_needed=True
+        wratio = height/window_height
+        wratio_inv = 1/wratio
+        w_width = int(window_height*vratio+0.5)
+    else:
+        window_height =height
+        w_width =  width
+    w_height = window_height
+
 
     w_out, h_out = aspect_ratio(aratio,width,height)
 
     
     data_out = []
 
-    crop = np.array([0,0,h_out])
+    crop = np.array([0,0,int(h_out*wratio_inv+0.5)])
     fcount = 0
-    crop_filter = np.full((height, width,3), fill_color, dtype=np.uint8) 
+    crop_filter = np.full((w_height, w_width,3), fill_color, dtype=np.uint8) 
+    print(crop_filter.shape)
 
     print("Click left mouse button and drag inorder to select area\n or press  x,y or h to change xy-coordinates of top left coorner and height of the crop")
     print("Press \"d\" to save the crop and move to next one.")
 
     while (True):
         ret, frame = cap.read()
+        if ret==True and window_scaling_needed:
+            frame= cv2.resize(frame, (w_width, w_height), interpolation=cv2.INTER_CUBIC)
+            print(frame.shape)
         if (ret == True) and (fcount%Ffreq==0 or fcount==nf-1):
             
 
@@ -188,7 +207,8 @@ def get_cropped_frames(file_in, file_out,aratio, freq=1, fill_color=[255,255,255
                 elif key == ord("d"):
                     if (0<= crop[0]) and (0<=crop[1]) and (crop[0]+int(aratio*crop[2])<width) and (crop[1]+crop[2]<height):
                         cv2.destroyWindow(msg)
-                        data_out.append([fcount]+list(crop.copy()) )
+                        crop_scaled= crop.copy()*wratio
+                        data_out.append([fcount]+list(crop_scaled) )
                         break
                     else:
                         print("CHOSEN AREA IS NOT INSIDE THE ORIGINAL FRAME:")
@@ -214,9 +234,12 @@ def get_cropped_frames(file_in, file_out,aratio, freq=1, fill_color=[255,255,255
 if __name__ == "__main__":
     from sys import argv
 
-    file_in, file_out, aratio, freq = argv[1:]
+    file_in, file_out, aratio, freq, window_height= argv[1:]
 
     a = aratio.split(":")
     aratio = int(a[0])/int(a[1])
+
+    window_height = int(window_height)
+
     freq = float(freq)
-    get_cropped_frames(file_in, file_out, aratio, freq)
+    get_cropped_frames(file_in, file_out, aratio, freq, window_height)
